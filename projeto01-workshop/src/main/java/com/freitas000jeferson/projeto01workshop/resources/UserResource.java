@@ -1,6 +1,7 @@
 package com.freitas000jeferson.projeto01workshop.resources;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.freitas000jeferson.projeto01workshop.domain.User;
+import com.freitas000jeferson.projeto01workshop.dto.UserDTO;
 import com.freitas000jeferson.projeto01workshop.services.UserService;
 
 @RestController
@@ -23,6 +25,12 @@ public class UserResource {
 	public List<User> findAll(){
 		System.out.println("findAll");
 		return service.findAll();
+	}
+	@GetMapping("/dto")
+	public List<UserDTO> findAllUserDTO(){
+		List<User> list =  service.findAll();
+		List<UserDTO> listDto=	list.stream().map(x -> new UserDTO(x)).collect(Collectors.toList());
+		return listDto;
 	}
 	
 	@GetMapping("/{id}")
