@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.freitas000jeferson.projeto01workshop.domain.Post;
 import com.freitas000jeferson.projeto01workshop.domain.User;
 import com.freitas000jeferson.projeto01workshop.dto.UserDTO;
 import com.freitas000jeferson.projeto01workshop.services.UserService;
@@ -26,7 +27,6 @@ public class UserResource {
 	
 	@GetMapping
 	public List<User> findAll(){
-		System.out.println("findAll");
 		return service.findAll();
 	}
 	@GetMapping("/dto")
@@ -73,6 +73,13 @@ public class UserResource {
 	public ResponseEntity<Void> delete(@PathVariable String id){
 		service.delete(id);
 		return ResponseEntity.noContent().build();
+	}
+	
+	@RequestMapping(value="/{id}/posts",method=RequestMethod.GET)
+	public ResponseEntity<List<Post>> findPosts(@PathVariable String id){
+		User obj = service.findById1(id);
+		
+		return ResponseEntity.ok().body(obj.getPosts());
 	}
 
 }
